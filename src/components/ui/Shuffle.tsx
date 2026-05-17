@@ -31,6 +31,7 @@ export interface ShuffleProps {
   triggerOnce?: boolean;
   respectReducedMotion?: boolean;
   triggerOnHover?: boolean;
+  autoShuffleInterval?: number;
 }
 
 const Shuffle: React.FC<ShuffleProps> = ({
@@ -56,7 +57,8 @@ const Shuffle: React.FC<ShuffleProps> = ({
   colorTo,
   triggerOnce = true,
   respectReducedMotion = true,
-  triggerOnHover = true
+  triggerOnHover = true,
+  autoShuffleInterval = 0
 }) => {
   const ref = useRef<HTMLElement>(null);
   const [fontsLoaded, setFontsLoaded] = useState(false);
@@ -264,6 +266,13 @@ const Shuffle: React.FC<ShuffleProps> = ({
         });
       };
 
+      const replay = () => {
+        if (playingRef.current) return;
+        build();
+        if (scrambleCharset) randomizeScrambles();
+        play();
+      };
+
       const play = () => {
         const strips = inners();
         if (!strips.length) return;
@@ -347,10 +356,7 @@ const Shuffle: React.FC<ShuffleProps> = ({
         if (!triggerOnHover || !ref.current) return;
         removeHover();
         const handler = () => {
-          if (playingRef.current) return;
-          build();
-          if (scrambleCharset) randomizeScrambles();
-          play();
+          replay();
         };
         hoverHandlerRef.current = handler;
         ref.current.addEventListener('mouseenter', handler);
@@ -361,18 +367,32 @@ const Shuffle: React.FC<ShuffleProps> = ({
         if (scrambleCharset) randomizeScrambles();
         play();
         armHover();
+        let autoTimer: number | null = null;
+        if (autoShuffleInterval > 0) {
+          autoTimer = window.setInterval(() => {
+            replay();
+          }, autoShuffleInterval);
+        }
         setReady(true);
+
+        return () => {
+          if (autoTimer !== null) window.clearInterval(autoTimer);
+        };
       };
 
+      let destroyAutoTimer: (() => void) | undefined;
       const st = ScrollTrigger.create({
         trigger: el,
         start,
         once: triggerOnce,
-        onEnter: create
+        onEnter: () => {
+          destroyAutoTimer = create();
+        }
       });
 
       return () => {
         st.kill();
+        destroyAutoTimer?.();
         removeHover();
         teardown();
         setReady(false);
@@ -398,7 +418,8 @@ const Shuffle: React.FC<ShuffleProps> = ({
         triggerOnce,
         respectReducedMotion,
         triggerOnHover,
-        onShuffleComplete
+        onShuffleComplete,
+        autoShuffleInterval
       ],
       scope: ref
     }

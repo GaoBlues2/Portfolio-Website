@@ -1,15 +1,47 @@
 import { Suspense } from 'react'
 
+import PixelSnow from '../backgrounds/PixelSnow'
 import { Lanyard } from '../lanyard/Lanyard'
 import Shuffle from '../ui/Shuffle'
 
 export function HeroSection() {
+  const capabilities = [
+    'UI Systems',
+    'APIs',
+    'Mobile Apps',
+    '3D Web',
+    'AI Workflows',
+    'Web3 Products',
+  ]
+
   return (
     <section
       id="top"
-      className="relative flex min-h-dvh w-full overflow-hidden bg-[linear-gradient(to_bottom,#030712_0%,#02040a_40%,#000_100%)] items-center justify-start"
+      className="relative flex min-h-dvh w-full overflow-hidden bg-black items-center justify-start"
       aria-label="Khu vực hero"
     >
+      <div className="absolute inset-0 z-0">
+        <PixelSnow
+          color="#ffffff"
+          flakeSize={0.01}
+          minFlakeSize={1.25}
+          pixelResolution={200}
+          speed={1.25}
+          density={0.3}
+          direction={125}
+          brightness={1}
+          depthFade={8}
+          farPlane={20}
+          gamma={0.4545}
+          variant="square"
+        />
+      </div>
+
+      <div
+        className="pointer-events-none absolute inset-0 z-[1] bg-[radial-gradient(circle_at_center,rgba(0,0,0,0.02)_0%,rgba(0,0,0,0.16)_40%,rgba(0,0,0,0.56)_76%,rgba(0,0,0,0.82)_100%)]"
+        aria-hidden
+      />
+
       {/* Canvas Lanyard ở phía sau */}
       <div className="absolute inset-0 z-1 w-full pointer-events-none">
         <Suspense fallback={null}>
@@ -17,9 +49,9 @@ export function HeroSection() {
         </Suspense>
       </div>
 
-      {/* Ánh sáng rọi từ trên xuống */}
+      {/* Lớp sáng phụ để giữ vùng headline sáng hơn effect nền */}
       <div
-        className="pointer-events-none absolute left-1/2 top-[-250px] z-[1] h-[700px] w-[900px] -translate-x-1/2 blur-[20px] bg-[radial-gradient(ellipse_at_top,rgba(120,220,255,0.35)_0%,rgba(80,180,255,0.18)_18%,rgba(40,120,255,0.08)_35%,rgba(0,0,0,0)_70%)]"
+        className="pointer-events-none absolute left-[24%] top-[12%] z-[1] h-[420px] w-[620px] -translate-x-1/2 -translate-y-1/2 blur-[56px] bg-[radial-gradient(circle,rgba(140,180,255,0.09)_0%,rgba(120,150,220,0.05)_34%,rgba(0,0,0,0)_72%)]"
         aria-hidden
       />
 
@@ -44,13 +76,27 @@ export function HeroSection() {
           respectReducedMotion
           loop={false}
           loopDelay={0}
+          autoShuffleInterval={5000}
           textAlign="left"
         />
-        <p>
-          <span className="block text-lg md:text-xl text-slate-200">
-            I build scalable web and mobile products across Web2 and Web3.
-          </span>
-        </p>
+        <div className="max-w-3xl space-y-3">
+          <p className="text-lg font-medium text-white md:text-xl">
+            I turn ideas into production-ready products.
+          </p>
+          <p className="text-base text-slate-300 md:text-lg">
+            UI, APIs, motion, 3D, mobile, Web3, and the systems behind them.
+          </p>
+        </div>
+        <div className="flex max-w-3xl flex-wrap gap-2 pt-1 text-sm text-slate-200 md:text-base">
+          {capabilities.map((capability) => (
+            <span
+              key={capability}
+              className="rounded-full border border-white/20 bg-white/6 px-3 py-1.5 backdrop-blur-sm"
+            >
+              {capability}
+            </span>
+          ))}
+        </div>
       </div>
     </section>
   )
