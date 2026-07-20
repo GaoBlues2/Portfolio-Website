@@ -1,0 +1,64 @@
+{
+  "meta": {
+    "name": "System Signal",
+    "description": "A bold experimental portfolio for a fullstack engineer who builds distributed, cloud, and AI-integrated systems.",
+    "source_references": ["User-approved visual thesis", "User-provided floating-spheres reference screenshot", "Dao Ngoc Trung CV", "UI UX Pro Max portfolio recommendations"],
+    "created_at": "2026-07-20"
+  },
+  "design_system": {
+    "color": {
+      "palette_type": "split-complementary",
+      "primary": {"hex": "#C8FF3D", "role": "CTA, focus, proof markers"},
+      "secondary": {"hex": "#64E7E0", "role": "technical secondary signal"},
+      "accent": {"hex": "#F2F5EF", "role": "high-contrast typographic emphasis"},
+      "neutral": {"scale": ["#080A08", "#0F120F", "#151915", "#222922", "#2C342C", "#818A7E", "#B7C0B4", "#F2F5EF"], "usage": "near-black surfaces with progressively brighter text and borders"},
+      "semantic": {"success": "#62E698", "warning": "#F6C85F", "error": "#FF6B6B", "info": "#64E7E0"},
+      "surface": {"background": "#080A08", "card": "#151915", "elevated": "#0F120F", "contact_chapter": "#EEF3E9 to #C8D8B3 sage gradient"},
+      "contrast_strategy": "high-contrast paper text on near-black with lime reserved for action"
+    },
+    "typography": {
+      "type_scale": {
+        "display": {"size": "clamp(4rem, 11.5vw, 10.5rem)", "weight": 800, "line_height": 0.82, "tracking": "-0.07em"},
+        "heading_1": {"size": "clamp(2.4rem, 5vw, 5rem)", "weight": 750, "line_height": 0.94, "tracking": "-0.045em"},
+        "heading_2": {"size": "clamp(2.25rem, 5.8vw, 5.4rem)", "weight": 750, "line_height": 0.94, "tracking": "-0.05em"},
+        "heading_3": {"size": "clamp(1.25rem, 2.2vw, 1.8rem)", "weight": 700, "line_height": 1.1, "tracking": "-0.025em"},
+        "body": {"size": "1rem", "weight": 400, "line_height": 1.65, "tracking": "0"},
+        "body_small": {"size": "0.875rem", "weight": 400, "line_height": 1.55, "tracking": "0"},
+        "caption": {"size": "0.72rem", "weight": 700, "line_height": 1.2, "tracking": "0.12em"},
+        "overline": {"size": "0.72rem", "weight": 700, "line_height": 1.2, "tracking": "0.12em"}
+      },
+      "font_families": {"heading": "Space Grotesk, Helvetica Neue, sans-serif", "body": "DM Sans, Helvetica Neue, Arial, sans-serif", "mono": "Space Mono, SFMono-Regular, Consolas, monospace"},
+      "font_style_notes": "soft-geometric oversized headlines countered by precise technical monospace metadata"
+    },
+    "spacing": {"base_unit": "8px", "scale": ["4px", "8px", "12px", "16px", "24px", "32px", "48px", "64px", "96px", "128px", "192px"], "content_density": "spacious", "section_rhythm": "large cinematic gaps with compact evidence clusters"},
+    "layout": {"grid_system": "fluid 12-column CSS grid", "max_content_width": "1440px", "columns": {"desktop": 12, "tablet": 6, "mobile": 4}, "gutter": "clamp(20px, 4vw, 64px)", "breakpoints": ["375px", "768px", "1024px", "1440px"], "alignment_tendency": "asymmetric strict grid; desktop hero is constrained to one viewport with a two-column support row and proof metrics in the bottom rail"},
+    "shape": {"border_radius": {"small": "10px", "medium": "18px", "large": "30px", "pill": "999px"}, "border_usage": "quiet translucent 1px borders around independently spaced surfaces", "divider_style": "low-contrast hairline used sparingly"},
+    "elevation": {"shadow_style": "minimal deep diffused", "levels": {"low": "none", "medium": "0 20px 80px rgba(0,0,0,.28)", "high": "0 32px 120px rgba(0,0,0,.42)"}, "depth_cues": "overlapping layers, border intensity, WebGL depth"},
+    "iconography": {"style": "monoline geometric", "stroke_weight": "1.5px", "size_scale": ["16px", "20px", "24px"], "preferred_set": "custom inline SVG matching Lucide geometry"},
+    "motion": {"easing": "cubic-bezier(0.2, 0, 0, 1)", "duration_scale": {"micro": "120ms", "normal": "240ms", "macro": "450ms"}, "entrance_pattern": "translateY 24-40px with opacity and compact stagger", "exit_pattern": "short opacity and translateY -8px", "philosophy": "energetic editorial motion with functional restraint; selected work uses a desktop-only scrubbed card stack to focus one case study at a time"},
+    "components": {"button_style": "48px minimum, fully rounded lime primary or translucent secondary, arrow shift hover", "input_style": "dark softly rounded surface, persistent label, lime focus ring", "card_style": "rounded near-black gradient plane with quiet border and asymmetric metadata", "navigation_pattern": "floating translucent horizontal pill across the top on desktop, with a compact always-visible variant below 768px", "modal_style": "large rounded dark sheet with high-contrast close action", "list_style": "softly grouped system-log timeline with numeric markers", "component_notes": "all interactions have default, hover, focus, active, and disabled states; the final contact section is the only light chapter and its contact rows invert from translucent paper to ink"}
+  },
+  "design_style": {
+    "aesthetic": {"mood": ["bold", "technical", "experimental", "confident", "approachable"], "visual_metaphor": "a live infrastructure console transformed into a softly layered editorial portfolio", "era_influence": "contemporary computational design with rounded tech-premium surfaces", "genre": "experimental developer portfolio", "personality_traits": ["systems-minded", "direct", "inventive", "disciplined"], "adjectives": ["dark", "electric", "asymmetric", "soft-geometric", "high-signal"]},
+    "visual_language": {"complexity": "rich", "ornamentation": "subtle technical accents", "whitespace_usage": "generous around headlines, compact around evidence", "visual_weight_distribution": "oversized typography crossed by a full-width field of floating spheres, resolved by a singular light contact chapter", "focal_strategy": "layered depth reveal ending in a high-contrast light CTA destination", "contrast_level": "very high", "texture_usage": "faint grid, scan-line texture, and restrained concentric rings"},
+    "composition": {"hierarchy_method": "extreme scale contrast and spatial isolation", "balance_type": "asymmetric", "flow_direction": "vertical with diagonal tension", "grouping_strategy": "bordered evidence clusters", "negative_space_role": "creates confidence and separates narrative beats"},
+    "imagery": {"photo_treatment": "no photography required", "illustration_style": "matte abstract computational spheres", "graphic_elements": "floating spheres, grid lines, system indexes, brackets, status dots", "pattern_usage": "low-opacity technical grid", "image_shape": "viewport-spanning 3D depth field and rectangular system panels"},
+    "interaction_feel": {"feedback_style": "immediate border and translation response", "hover_behavior": "small translate with lime/cyan edge activation", "transition_personality": "snappy with a controlled cinematic entrance", "loading_style": "content-first static render; no blocking loader", "microinteraction_density": "moderate"},
+    "brand_voice_in_ui": {"tone": "direct and technically literate", "formality": "professional without corporate filler", "cta_style": "direct imperative", "empty_state_approach": "plain factual guidance", "error_tone": "calm and actionable"}
+  },
+  "visual_effects": {
+    "overview": {"effect_intensity": "moderate", "performance_tier": "heavy", "fallback_strategy": "replace WebGL with two static CSS sphere layers and disable scroll motion", "primary_technology": "WebGL/Three.js plus GSAP"},
+    "background_effects": {"type": "generative-art", "description": "subtle grid and radial light field, a manifesto topology network, and static concentric rings inside the final light contact chapter", "technology": "CSS and inline SVG", "params": {"color_palette": ["#080A08", "#C8FF3D", "#64E7E0", "#EEF3E9", "#C8D8B3"], "speed": "13s ambient topology flow; contact rings remain static", "density": "low", "opacity": 0.08, "blend_mode": "screen and normal"}},
+    "particle_systems": {"enabled": true, "type": "custom", "description": "34 matte spheres distributed across two depth layers around the hero headline, with a wider desktop bias toward the right side", "technology": "Three.js InstancedMesh", "params": {"count": 34, "shape": "sphere", "size_range": "0.34-0.92 world units", "movement_pattern": "deterministic quasi-random drift made from mismatched sine and cosine frequencies", "color_behavior": "muted graphite-sage behind the text and pale electric lime in front", "interaction": "nearby spheres are softly repelled by fine-pointer proximity and return with slower damping", "spawn_area": "expanded full-width hero headline field"}},
+    "3d_elements": {"enabled": true, "type": "abstract-geometry", "description": "two transparent sphere canvases sandwich the real HTML headline to create physical-looking foreground and background occlusion", "technology": "React Three Fiber", "params": {"renderer": "two transparent WebGLRenderer canvases, antialias, DPR clamped 1-1.5", "lighting": "ambient, white directional, and restrained lime/cyan point lights", "camera": "perspective 42deg at [0,0,7.6]", "materials": "matte StandardMaterials with high roughness and near-zero metalness", "geometry": "two InstancedMeshes totaling 34 SphereGeometry instances", "post_processing": [], "interaction_model": "continuous multi-axis drift plus a cursor-centered radial force; fast outward response and slow damped recovery, disabled for reduced motion and coarse pointers"}},
+    "shader_effects": {"enabled": false, "type": "none", "description": "standard materials keep the scene reliable and lightweight", "technology": "none", "params": {"uniforms": [], "vertex_manipulation": "none", "fragment_output": "none", "noise_type": "none", "distortion": 0}},
+    "scroll_effects": {"parallax": {"enabled": true, "layers": 2, "depth_range": "12-40px", "speed_curve": "linear scrub"}, "scroll_triggered_animations": {"enabled": true, "trigger_points": "top 84%", "animation_type": "fade-up and clip-reveal", "scrub_behavior": "triggered for content, scrubbed for progress line"}, "scroll_morphing": {"enabled": false, "description": "no layout morphing"}},
+    "text_effects": {"type": "split-letter-animate", "description": "hero words reveal as clipped lines with compact stagger", "technology": "GSAP", "params": {"split_strategy": "by-line", "animation_per_unit": "translateY 110% to 0 with opacity", "stagger": "70ms", "effect_style": "clean editorial reveal"}},
+    "cursor_effects": {"enabled": false, "type": "none", "description": "native cursor retained for usability", "params": {"shape": "native", "size": "native", "blend_mode": "normal", "trail": false, "interaction_zone": "none"}},
+    "image_effects": {"type": "none", "description": "portfolio uses system graphics instead of photography", "technology": "none", "params": {"filter_pipeline": [], "hover_transform": "none", "reveal_animation": "none", "distortion_type": "none"}},
+    "glassmorphism_neumorphism": {"enabled": false, "style": "none", "params": {"blur_radius": "0", "transparency": 1, "border_treatment": "solid subtle border", "shadow_type": "minimal", "light_source_angle": "none"}},
+    "canvas_drawings": {"enabled": false, "type": "none", "description": "Three.js owns the only continuous rendering context", "technology": "none", "params": {"draw_method": "none", "animation_loop": "none", "color_scheme": [], "responsiveness": "none", "interaction": "none"}},
+    "svg_animations": {"enabled": true, "type": "decorative-loop", "description": "small arrow and status glyph micro-interactions plus a low-opacity system topology map behind the manifesto", "params": {"animation_method": "GSAP ScrollTrigger draw-on and CSS dash flow", "path_morphing": false, "stroke_animation": "one-time route reveal followed by slow continuous data flow", "filter_effects": "subtle lime hub glow"}},
+    "composite_notes": "The CSS grid establishes a static technical field, GSAP stages readable content, and two instanced sphere fields create the experimental signature. The DOM headline sits between the rear and front WebGL layers, so spheres visibly pass behind and in front while following independent, non-obvious drift rhythms. Fine pointers softly displace only nearby spheres; reduced-motion freezes the composition and low-end clients receive matching static CSS sphere layers."
+  }
+}
