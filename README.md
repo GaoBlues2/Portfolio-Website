@@ -6,19 +6,16 @@ An experimental, motion-led portfolio for **Dao Ngoc Trung**, a Fullstack Develo
 
 - Interactive Three.js hero with floating spheres and pointer repulsion
 - Layered typography that lets 3D objects move in front of and behind the headline
-- GSAP-powered reveals and a pinned project scroll stack
-- Project case studies covering decentralized rendering, GPU infrastructure, AI agents, data operations, and AI education
+- GSAP-powered editorial reveals and a reversible scroll-linked work carousel
+- Project case studies covering decentralized rendering, GPU rental for AI, and AI-assisted 3D creation
 - Responsive capability architecture across backend, frontend, data, cloud, and operations
 - Reduced-motion and lower-power fallbacks
 - Downloadable résumé
 
 ## Featured Work
 
-- **Pictor Network** — a decentralized 3D rendering network built on Aptos
-- **GPU4AI** — a cloud platform for GPU rental, storage, and AI Gateway access
+- **Pictor Network** — decentralized 3D rendering and multi-provider GPU rental for AI, integrated with Aptos
 - **Blender Agent** — an AI agent for creating and modifying Blender scenes with natural-language instructions
-- **Rynus** — Web3-enabled tooling for AI data operations
-- **Kite Learning** — AI-assisted IELTS learning across web and mobile
 
 ## Tech Stack
 
@@ -71,4 +68,3 @@ The 3D scene is loaded lazily, while motion preferences and device capabilities 
 **Dao Ngoc Trung** — Fullstack Developer
 
 Contact details and the complete work history are available on the website and in the included résumé.
-

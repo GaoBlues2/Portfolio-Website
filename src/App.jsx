@@ -43,32 +43,53 @@ function SectionHeading({ index, eyebrow, children }) {
 
 function ProjectCard({ project }) {
   return (
-    <article className="project-card reveal-item">
-      <div className="project-card__top">
-        <span className="project-index">[{project.index}]</span>
-        <span className="project-label">{project.label}</span>
-      </div>
-      <div className="project-card__content">
-        <h3>{project.title}</h3>
-        <div className="project-card__details">
-          <p className="project-description">{project.description}</p>
-          <p className="project-proof">{project.proof}</p>
+    <article className="case-study reveal-item">
+      <header className="case-study__header">
+        <div className="case-study__identity">
+          <span className="project-index mono">CASE / {project.index}</span>
+          <h3>{project.title}</h3>
+          <p>{project.label}</p>
         </div>
-      </div>
-      <div className="project-system" aria-label={`${project.title} system scope`}>
-        <span className="project-system__label mono">System scope / {project.index}</span>
-        <ul className="project-system__nodes">
-          {project.modules.map((module, index) => (
-            <li key={module}>
-              <span aria-hidden="true">0{index + 1}</span>
-              <strong>{module}</strong>
-            </li>
-          ))}
+        <a
+          className="case-study__link"
+          href={project.href}
+          target="_blank"
+          rel="noreferrer"
+          aria-label={`View ${project.title} live website (opens in a new tab)`}
+        >
+          View live website <ArrowIcon />
+        </a>
+      </header>
+
+      <dl className="case-study__facts">
+        <div>
+          <dt><span>01</span>Challenge</dt>
+          <dd>{project.challenge}</dd>
+        </div>
+        <div>
+          <dt><span>02</span>My role</dt>
+          <dd>{project.role}</dd>
+        </div>
+        <div>
+          <dt><span>03</span>Architecture</dt>
+          <dd>{project.architecture}</dd>
+        </div>
+        <div className="case-study__outcome">
+          <dt><span>04</span>Outcome</dt>
+          <dd>
+            <strong>{project.outcome.value}</strong>
+            <span>{project.outcome.label}</span>
+            <small>{project.outcome.note}</small>
+          </dd>
+        </div>
+      </dl>
+
+      <footer className="case-study__footer">
+        <span className="mono">MY STACK</span>
+        <ul className="case-study__tags" aria-label={`${project.title} core technologies`}>
+          {project.tags.map((tag) => <li key={tag}>{tag}</li>)}
         </ul>
-      </div>
-      <ul className="tag-list" aria-label={`${project.title} technologies`}>
-        {project.tags.map((tag) => <li key={tag}>{tag}</li>)}
-      </ul>
+      </footer>
     </article>
   )
 }
@@ -175,51 +196,72 @@ function App() {
       .from('.topology-node', { scale: 0, transformOrigin: 'center', duration: 0.35, stagger: 0.045, ease: 'back.out(1.35)' }, '-=0.52')
       .from('.topology-labels text', { y: 7, autoAlpha: 0, duration: 0.4, stagger: 0.06, ease: 'power2.out' }, '-=0.28')
 
-    const stackMedia = gsap.matchMedia()
+    const workMedia = gsap.matchMedia()
 
-    stackMedia.add('(min-width: 64rem)', () => {
-      const stack = root.current.querySelector('.project-grid')
-      const stackItems = gsap.utils.toArray('.project-stack-item', stack)
-      const stackCards = stackItems.map((item) => item.querySelector('.project-card'))
+    workMedia.add('(min-width: 64rem)', () => {
+      const track = root.current.querySelector('.project-grid')
+      const cards = gsap.utils.toArray('.case-study', track)
 
-      if (stackItems.length < 2) return
+      if (cards.length < 2) return
 
-      gsap.set(stackItems, { zIndex: (index) => index + 1, force3D: true })
-      gsap.set(stackCards, { scale: 1, y: 0, force3D: true })
-      gsap.set(stackItems.slice(1), { yPercent: 106, autoAlpha: 0 })
+      const slideGap = 24
+      const carouselHeight = Math.max(
+        640,
+        ...cards.map((card) => Math.ceil(card.getBoundingClientRect().height)),
+      )
 
-      const stackTimeline = gsap.timeline({
-        defaults: { ease: 'none' },
+      track.style.setProperty('--carousel-height', `${carouselHeight}px`)
+      track.classList.add('is-carousel')
+      gsap.set(cards, { xPercent: 100, x: slideGap, autoAlpha: 0, force3D: true })
+      gsap.set(cards[0], { xPercent: 0, x: 0, autoAlpha: 1 })
+
+      const carousel = gsap.timeline({
+        defaults: { duration: 1, ease: 'none' },
         scrollTrigger: {
-          trigger: stack,
-          start: 'top 12%',
-          end: () => `+=${(stackItems.length - 1) * window.innerHeight * 0.78}`,
+          trigger: track,
+          start: 'top 10%',
+          end: () => `+=${(cards.length - 1) * window.innerHeight * 0.9}`,
           pin: true,
           pinSpacing: true,
-          scrub: 0.35,
+          scrub: 0.55,
+          snap: {
+            snapTo: 1 / (cards.length - 1),
+            duration: { min: 0.15, max: 0.35 },
+            delay: 0.08,
+            ease: 'power1.inOut',
+          },
           anticipatePin: 1,
           invalidateOnRefresh: true,
         },
       })
 
-      stackItems.slice(1).forEach((item, index) => {
-        const activeIndex = index + 1
-        const position = index
-        const previousCard = stackCards[activeIndex - 1]
+      cards.slice(1).forEach((card, index) => {
+        carousel
+          .to(cards[index], { xPercent: -100, x: -slideGap, autoAlpha: 0 }, index)
+          .to(card, { xPercent: 0, x: 0, autoAlpha: 1 }, index)
+      })
 
-        stackTimeline
-          .set(item, { autoAlpha: 1 }, position)
-          .to(previousCard, {
-            scale: 0.975,
-            y: -8,
-            force3D: true,
-            duration: 1,
-          }, position)
-          .to(item, { yPercent: 0, y: activeIndex * 18, force3D: true, duration: 1 }, position)
+      return () => {
+        track.classList.remove('is-carousel')
+        track.style.removeProperty('--carousel-height')
+      }
+    })
+
+    workMedia.add('(max-width: 63.99rem)', () => {
+      const cards = gsap.utils.toArray('.project-grid .case-study')
+
+      gsap.from(cards, {
+        y: 30,
+        autoAlpha: 0,
+        duration: 0.45,
+        ease: 'power3.out',
+        stagger: 0.06,
+        scrollTrigger: { trigger: '.project-grid', start: 'top 82%', once: true },
       })
     })
 
-    return () => stackMedia.revert()
+    return () => workMedia.revert()
+
   }, { scope: root, dependencies: [reducedMotion], revertOnUpdate: true })
 
   return (
@@ -241,13 +283,13 @@ function App() {
         <section className="hero" id="top" aria-labelledby="hero-title">
           <div className="hero-grid grid-shell">
             <div className="hero-copy">
-              <div className="hero-status mono"><span className="status-dot" /> Hanoi, Vietnam · Fullstack Developer</div>
+              <div className="hero-status mono"><span className="status-dot" /> Full-stack developer · SaaS / Cloud / Cross-platform</div>
               <h1 id="hero-title">
-                <span className="hero-line"><span>BUILDING</span></span>
-                <span className="hero-line hero-line--outline"><span>SYSTEMS</span></span>
-                <span className="hero-line"><span>THAT SCALE.</span></span>
+                <span className="hero-line"><span>SAAS.</span></span>
+                <span className="hero-line hero-line--outline"><span>CLOUD.</span></span>
+                <span className="hero-line"><span>APPS.</span></span>
               </h1>
-              <p className="hero-intro">I turn complex infrastructure into products people can actually use — from distributed rendering and GPU platforms to AI-powered learning experiences.</p>
+              <p className="hero-intro">I build production SaaS platforms, cloud render infrastructure, and desktop/mobile applications — from system architecture and backend workflows to the interface.</p>
               <div className="hero-actions">
                 <a className="button button--primary" href="#work">Explore selected work <ArrowIcon /></a>
                 <a className="button button--secondary" href="mailto:ethanftd@gmail.com">Start a conversation</a>
@@ -261,8 +303,8 @@ function App() {
             <span aria-hidden="true">01 / INTRODUCTION</span>
             <div className="hero-meta">
               <span><b>06+</b> years shipping</span>
-              <span><b>FULL</b> product stack</span>
-              <span><b>AI</b> integrated systems</span>
+              <span><b>03</b> product surfaces</span>
+              <span><b>E2E</b> architecture to interface</span>
             </div>
             <span aria-hidden="true">SCROLL TO TRACE THE SYSTEM</span>
           </div>
@@ -271,16 +313,14 @@ function App() {
         <section className="manifesto section-shell" id="manifesto" aria-label="Professional statement">
           <TopologyMap />
           <p className="manifesto-label mono reveal">[ PRODUCT THINKING × SYSTEMS ENGINEERING ]</p>
-          <p className="manifesto-copy reveal">Not just screens. Not just APIs. I build the connective tissue between <em>product ambition</em> and <em>production reality.</em></p>
+          <p className="manifesto-copy reveal">Complex systems, shaped into products <em>teams can ship</em> and <em>people can run.</em></p>
         </section>
 
         <section className="work section-shell" id="work" aria-labelledby="work-title">
-          <SectionHeading index="02" eyebrow="Selected systems"><span id="work-title">Proof, not promises.</span></SectionHeading>
+          <SectionHeading index="02" eyebrow="Selected work"><span id="work-title">Two systems. My contribution, clearly.</span></SectionHeading>
           <div className="project-grid">
             {projects.map((project) => (
-              <div className="project-stack-item" key={project.title}>
-                <ProjectCard project={project} />
-              </div>
+              <ProjectCard project={project} key={project.title} />
             ))}
           </div>
         </section>
@@ -353,7 +393,7 @@ function App() {
           <div className="contact-grid">
             <div>
               <h2 id="contact-title" className="reveal">Let’s build the<br /><em>next system.</em></h2>
-              <p className="contact-note reveal">Looking for a fullstack developer who can move from architecture to interface without losing the thread?</p>
+              <p className="contact-note reveal">Looking for a full-stack developer who can own SaaS, cloud infrastructure, and cross-platform product work without losing the thread?</p>
             </div>
             <div className="contact-actions reveal">
               <a className="contact-link" href="mailto:ethanftd@gmail.com"><span>Email</span><strong>ethanftd@gmail.com</strong><ArrowIcon /></a>

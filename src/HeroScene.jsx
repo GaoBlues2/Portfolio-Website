@@ -4,7 +4,7 @@ import * as THREE from 'three'
 
 const FIELD_CONFIG = {
   back: {
-    count: 20,
+    count: 14,
     color: '#7D877A',
     roughness: 0.9,
     spreadX: 5.9,
@@ -16,7 +16,7 @@ const FIELD_CONFIG = {
     seed: 31,
   },
   front: {
-    count: 14,
+    count: 10,
     color: '#D7FF73',
     roughness: 0.68,
     spreadX: 6.05,
@@ -121,7 +121,7 @@ function FloatingSphereField({ layer, reducedMotion, pointerRef }) {
 
   return (
     <instancedMesh ref={mesh} args={[null, null, config.count]} frustumCulled={false}>
-      <sphereGeometry args={[1, 28, 22]} />
+      <sphereGeometry args={[1, 20, 16]} />
       <meshStandardMaterial color={config.color} roughness={config.roughness} metalness={0.02} />
     </instancedMesh>
   )
@@ -150,7 +150,7 @@ function SphereCanvas({ layer, reducedMotion, pointerRef }) {
 function StaticSphereField({ layer }) {
   return (
     <div className={`scene-fallback scene-fallback--${layer}`} aria-hidden="true">
-      {Array.from({ length: layer === 'front' ? 9 : 13 }, (_, index) => <span key={index} />)}
+      {Array.from({ length: layer === 'front' ? 7 : 10 }, (_, index) => <span key={index} />)}
     </div>
   )
 }

@@ -4,7 +4,7 @@
 
 **Visual thesis:** A dark, bold experimental portfolio with near-black surfaces, an electric-lime accent, oversized soft-geometric typography paired with technical monospace, spacious 8px rhythm, and generously rounded layered components defined by quiet borders. The final contact chapter is the sole paper-sage light surface, creating a decisive visual destination for the primary conversion moment.
 
-**Interaction thesis:** Energetic motion from 120–450ms, restrained translate/border hover feedback, GSAP scroll reveals and subtle parallax, plus an autonomous field of matte Three.js spheres drifting at mismatched frequencies in front of and behind the hero headline; a soft local pointer force nudges nearby spheres outward before a damped return, with no excessive bounce or effects that interfere with reading.
+**Interaction thesis:** Energetic motion from 120–450ms, restrained translate/border hover feedback, one-time GSAP content reveals and subtle hero parallax, plus a desktop-only scroll-linked Selected Work carousel that reverses with scroll direction; no excessive bounce or effects that interfere with reading.
 
 ## Design tokens
 
@@ -72,7 +72,7 @@ All body copy uses Paper 300 or brighter on Ink 950. Signal is reserved for focu
 - Cards: softly layered Ink 900/800 gradient, quiet border, 18–30px radius, asymmetric content grid
 - Contact chapter: singular Paper/Sage light panel with Ink text, concentric system rings, and light contact rows that invert to Ink on hover
 - Navigation: floating translucent horizontal pill across the top on desktop, with a compact always-visible variant on mobile
-- Selected work: four full-width project cards form a page-scroll-driven GSAP stack above 1024px; incoming cards rise from below while earlier cards retain a slim visible edge, with static two-column/list fallbacks for reduced motion and smaller screens
+- Selected work: two full-width editorial case studies presented as a pinned, scroll-linked horizontal carousel on desktop; each card contains challenge, personal role, architecture, outcome, a live-product link, and a short personal-stack line
 - Timeline: vertical system log with status index, period, company, role, and selected outcomes
 - Tags: mono, uppercase, outlined pill, never the primary signal
 - Focus: 2px Signal outline, 3px offset
@@ -88,13 +88,14 @@ All body copy uses Paper 300 or brighter on Ink 950. Signal is reserved for focu
 - Manifesto topology: 900ms one-time path draw, staggered node reveal, then a 13s continuous low-opacity data-flow dash
 - Exit easing: `power2.in`
 - Entrance: translateY 24–40px + opacity, staged under 500ms total stagger
+- Selected Work carousel: current card exits left while the next enters from the right, tied directly to scroll with linear scrub and reversible on upward scroll
 - Scroll scrub: `ease: none`
 - Reduced motion: disable scrub/ambient loops and render all content immediately
 
 ## Responsive behavior
 
 - 1440+: full asymmetric hero, two-column systems cards, generous negative space
-- Desktop hero: exactly one viewport high; statement and actions share a two-column support row, while proof metrics sit in the bottom system rail
+- Desktop hero: at least one viewport high and allowed to grow with content; statement and actions share a two-column support row, while proof metrics remain in a non-overlapping bottom system rail
 - 1024–1439: retain split hero and condensed type
 - 768–1023: stack 3D behind/under hero copy; timeline becomes 2-column
 - 375–767: single column, visible CTAs, 44px touch targets, no hover-dependent content, static lightweight 3D fallback on reduced/low-end mode
@@ -108,5 +109,5 @@ All body copy uses Paper 300 or brighter on Ink 950. Signal is reserved for focu
 - Decorative manifesto SVG is hidden from assistive technology and its ambient flow is disabled by `prefers-reduced-motion`
 - `prefers-reduced-motion` disables GSAP and continuous Three.js motion
 - WebGL DPR clamped to 1.5; no models/textures, no post-processing, low draw-call scene
-- Hero depth field uses two low-draw-call instanced sphere meshes that sandwich the real HTML headline; each sphere follows a deterministic multi-frequency drift and receives a lightweight proximity-based pointer displacement with a slower damped return
+- Hero depth field uses two low-draw-call instanced meshes totaling 24 low-poly spheres that sandwich the real HTML headline; each sphere follows a deterministic multi-frequency drift and receives a lightweight proximity-based pointer displacement with a slower damped return
 - All UI movement uses transforms and opacity
