@@ -326,16 +326,52 @@ function App() {
         </section>
 
         <section className="experience section-shell" id="experience" aria-labelledby="experience-title">
-          <SectionHeading index="03" eyebrow="Experience log"><span id="experience-title">Six years in production.</span></SectionHeading>
-          <div className="timeline reveal-group">
-            {experience.map((item, index) => (
-              <article className="timeline-row reveal-item" key={`${item.company}-${item.period}`}>
-                <div className="timeline-index mono">{String(index + 1).padStart(2, '0')}</div>
-                <time className="timeline-period mono">{item.period}</time>
-                <div className="timeline-company"><h3>{item.company}</h3><span>{item.role}</span></div>
-                <p>{item.detail}</p>
-              </article>
-            ))}
+          <div className="experience-layout">
+            <aside className="experience-summary reveal">
+              <p className="experience-summary__kicker mono"><span>03</span> Experience log</p>
+              <h2 id="experience-title">Six years<br />in production<span>.</span></h2>
+              <p className="experience-summary__copy">Shipping products, building infrastructure, and turning complex workflows into software people can operate.</p>
+              <dl className="experience-signals">
+                <div>
+                  <dt className="mono">Years shipping</dt>
+                  <dd>06+</dd>
+                </div>
+                <div>
+                  <dt className="mono">Delivery scope</dt>
+                  <dd>Product → Infrastructure</dd>
+                </div>
+                <div>
+                  <dt className="mono">Focus areas</dt>
+                  <dd>Web · Cloud · AI · 3D</dd>
+                </div>
+              </dl>
+            </aside>
+
+            <div className="timeline reveal-group">
+              {experience.map((item) => {
+                const isCurrent = item.period.includes('NOW')
+
+                return (
+                  <article className={`timeline-row reveal-item${isCurrent ? ' is-current' : ''}`} key={`${item.company}-${item.period}`}>
+                    <span className="timeline-marker" aria-hidden="true" />
+                    <time className="timeline-period mono">{item.period}</time>
+                    <div className="timeline-content">
+                      <header className="timeline-company">
+                        <div>
+                          <h3>{item.company}</h3>
+                          <span>{item.role}</span>
+                        </div>
+                        {isCurrent && <span className="timeline-current mono">Current</span>}
+                      </header>
+                      <p>{item.detail}</p>
+                      <ul className="timeline-tags" aria-label={`${item.company} technologies`}>
+                        {item.tags.map((tag) => <li key={tag}>{tag}</li>)}
+                      </ul>
+                    </div>
+                  </article>
+                )
+              })}
+            </div>
           </div>
         </section>
 
@@ -372,17 +408,31 @@ function App() {
 
         <section className="about section-shell" id="about" aria-labelledby="about-title">
           <div className="about-grid">
-            <div>
+            <div className="about-lead">
               <p className="section-kicker reveal"><span>05</span>Beyond the code</p>
               <h2 id="about-title" className="reveal">Built for the long run.</h2>
+              <ul className="about-activities reveal" aria-label="Activities outside work">
+                {['Running', 'Swimming', 'Badminton', 'Football'].map((activity, index) => (
+                  <li key={activity}>
+                    <span className="mono">0{index + 1}</span>
+                    <strong>{activity}</strong>
+                  </li>
+                ))}
+              </ul>
             </div>
             <div className="about-copy reveal">
-              <p>I care about systems that stay understandable under pressure: clear architecture, useful monitoring, thoughtful failure modes, and interfaces that respect the people operating them.</p>
-              <p>Outside work, I train, swim, run, play badminton and football. The same mindset carries over — consistency, feedback, and getting a little better every cycle.</p>
+              <div className="about-block">
+                <span className="about-label mono">How I build</span>
+                <p>I build systems that remain understandable under pressure—clear architecture, useful observability, predictable failure modes, and interfaces that respect the people operating them.</p>
+              </div>
+              <div className="about-block">
+                <span className="about-label mono">Outside work</span>
+                <p>Running, swimming, badminton, and football keep me grounded. The same principles carry over: consistency, feedback, and steady improvement.</p>
+              </div>
               <div className="education">
                 <span className="mono">EDUCATION / 2015—2019</span>
-                <strong>Bachelor’s Degree in Information Technology</strong>
-                <span>Nha Trang Telecommunications University · Upper Second-Class Honours equivalent</span>
+                <strong>Bachelor of Information Technology</strong>
+                <span>Nha Trang Telecommunications University</span>
               </div>
             </div>
           </div>

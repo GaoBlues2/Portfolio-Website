@@ -73,7 +73,8 @@ All body copy uses Paper 300 or brighter on Ink 950. Signal is reserved for focu
 - Contact chapter: singular Paper/Sage light panel with Ink text, concentric system rings, and light contact rows that invert to Ink on hover
 - Navigation: floating translucent horizontal pill across the top on desktop, with a compact always-visible variant on mobile
 - Selected work: two full-width editorial case studies presented as a pinned, scroll-linked horizontal carousel on desktop; each card contains challenge, personal role, architecture, outcome, a live-product link, and a short personal-stack line
-- Timeline: vertical system log with status index, period, company, role, and selected outcomes
+- Experience: sticky editorial summary beside a restrained vertical timeline; each role shows period, company, title, one contribution statement, and no more than three relevant technologies
+- Beyond the code: two-column editorial chapter with a large personal headline and activity list on the left; labeled build philosophy, outside-work copy, and compact education metadata on the right
 - Tags: mono, uppercase, outlined pill, never the primary signal
 - Focus: 2px Signal outline, 3px offset
 
@@ -97,7 +98,7 @@ All body copy uses Paper 300 or brighter on Ink 950. Signal is reserved for focu
 - 1440+: full asymmetric hero, two-column systems cards, generous negative space
 - Desktop hero: at least one viewport high and allowed to grow with content; statement and actions share a two-column support row, while proof metrics remain in a non-overlapping bottom system rail
 - 1024–1439: retain split hero and condensed type
-- 768–1023: stack 3D behind/under hero copy; timeline becomes 2-column
+- 768–1023: stack 3D behind/under hero copy; experience summary moves above the single-column timeline
 - 375–767: single column, visible CTAs, 44px touch targets, no hover-dependent content, static lightweight 3D fallback on reduced/low-end mode
 
 ## Accessibility and performance
