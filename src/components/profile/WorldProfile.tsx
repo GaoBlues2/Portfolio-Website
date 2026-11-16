@@ -1,3 +1,4 @@
+import type { BookPose } from '../cases/bookState'
 import { Component, lazy, Suspense, useLayoutEffect, useRef, useState } from 'react'
 import type { ReactNode } from 'react'
 import gsap from 'gsap'
@@ -11,28 +12,46 @@ const sections: {id:ProfileView;label:string;index:string;title:string;intro:str
  {id:'cloud',label:'Experience',index:'03',title:'My Journey',intro:'From web applications to AI products, distributed rendering and cross-platform delivery.'},
  {id:'home',label:'About Me',index:'04',title:'The Developer Behind the Code',intro:'Full-stack developer. Practical problem solver. Always learning.'},
 ]
-export function WorldProfile({initialView,reduced,onClosed}:{initialView:ProfileView;reduced:boolean;onClosed:()=>void}){
- const [view,setView]=useState(initialView),[closing,setClosing]=useState(false)
+export function WorldProfile({initialView,reduced,onClosed,book,origin}:{initialView:ProfileView;reduced:boolean;onClosed:()=>void;book:BookPose;origin:HTMLElement|null}){
+ const [view,setView]=useState(initialView),[closing,setClosing]=useState(false),[ready,setReady]=useState(false)
+ const fromBook=initialView==='engineering'
  const dialog=useRef<HTMLDialogElement>(null),timeline=useRef<gsap.core.Timeline|null>(null),isClosing=useRef(false)
  const focusBefore=useRef(document.activeElement as HTMLElement|null),body=useRef<HTMLDivElement>(null)
  const section=sections.find(s=>s.id===view)!
- const close=()=>{if(isClosing.current)return;isClosing.current=true;setClosing(true);if(reduced)onClosed();else timeline.current?.reverse()}
+ const close=()=>{if(isClosing.current)return;isClosing.current=true;setClosing(true);if(reduced)onClosed();else timeline.current?.timeScale(1.3).reverse()}
  useLayoutEffect(()=>{
   const el=dialog.current!;el.showModal();const overflow=document.body.style.overflow;document.body.style.overflow='hidden'
   const ctx=gsap.context(()=>{
-   timeline.current=gsap.timeline({onReverseComplete:onClosed})
-    .fromTo(el,{opacity:0,y:reduced?0:18},{opacity:1,y:0,duration:reduced?0:.35,ease:'power2.out'})
+   const tl=gsap.timeline({onReverseComplete:onClosed,onComplete:()=>{setReady(true);el.querySelector<HTMLButtonElement>('.profile-back')?.focus({preventScroll:true})},onUpdate:()=>book.invalidate?.()})
+   timeline.current=tl
+   if(fromBook&&!reduced){
+    const rect=origin?.querySelector('.miniature')?.getBoundingClientRect()
+    const ox=rect?rect.left+rect.width*.5:innerWidth/2,oy=rect?rect.top+rect.height*.32:innerHeight*.6
+    const sheet=el.querySelector('.case-flight')!
+    tl.to(book,{lift:.045,duration:.18,ease:'power2.out'},0)
+     .to(book,{opening:1,duration:.65,ease:'power2.inOut'},.12)
+     .fromTo(sheet,{x:ox-innerWidth/2,y:oy-innerHeight/2,scale:.035,rotation:-9,autoAlpha:0},{autoAlpha:1,scale:.15,y:oy-innerHeight/2-70,rotation:-5,duration:.38,ease:'power2.out'},.58)
+     .to(sheet,{x:0,y:0,scale:1,rotation:0,duration:.65,ease:'power3.inOut'},.96)
+     .fromTo('.profile-surface',{opacity:0},{opacity:1,duration:.45},1.15)
+     .fromTo('.profile-layout',{opacity:0,scale:.94,y:24},{opacity:1,scale:1,y:0,duration:.45,ease:'power2.out'},1.4)
+     .to(sheet,{autoAlpha:0,duration:.25},1.45)
+     .fromTo('.profile-bar',{opacity:0,y:-10},{opacity:1,y:0,duration:.25},1.6)
+   }else{
+    tl.fromTo(el,{opacity:0,y:reduced?0:18},{opacity:1,y:0,duration:reduced?0:.35,ease:'power2.out'})
+   }
   },el)
-  return()=>{ctx.revert();el.close();document.body.style.overflow=overflow;focusBefore.current?.focus({preventScroll:true})}
- },[reduced,onClosed])
+  return()=>{ctx.revert();book.opening=0;book.lift=0;book.invalidate?.();el.close();document.body.style.overflow=overflow;focusBefore.current?.focus({preventScroll:true})}
+ },[reduced,onClosed,book,origin,fromBook])
+
  useLayoutEffect(()=>{
   body.current?.scrollTo({top:0})
   const ctx=gsap.context(()=>{gsap.fromTo('.profile-reveal',{opacity:0,y:reduced?0:14},{opacity:1,y:0,duration:reduced?0:.4,stagger:reduced?0:.05,ease:'power2.out'})},body)
   return()=>ctx.revert()
  },[view,reduced])
- return <dialog ref={dialog} className={`world-profile view-${view}`} aria-labelledby="profile-title" onCancel={e=>{e.preventDefault();close()}}>
-  <header className="profile-bar"><span className="profile-wordmark">Trung Dao</span><nav aria-label="Portfolio sections">{sections.map(s=><button key={s.id} aria-current={view===s.id?'page':undefined} onClick={()=>setView(s.id)}>{s.label}</button>)}</nav><button className="profile-back" autoFocus onClick={close} aria-label="Close developer profile"><span aria-hidden>←</span> My World</button></header>
-  <div className="profile-layout" inert={closing}>
+ return <dialog ref={dialog} className={`world-profile view-${view}${fromBook?' book-profile':''}`} aria-labelledby="profile-title" onCancel={e=>{e.preventDefault();close()}}>
+  {fromBook&&<><div className="profile-surface"/><div className="case-flight" aria-hidden="true"><span>FIELD NOTES / 02</span><strong>Behind the<br/>Engineering</strong><i/><small>TRUNG DAO — CASE STUDIES</small></div></>}
+  <header className="profile-bar"><span className="profile-wordmark">Trung Dao</span><nav inert={!ready||closing} aria-label="Portfolio sections">{sections.map(s=><button key={s.id} aria-current={view===s.id?'page':undefined} onClick={()=>setView(s.id)}>{s.label}</button>)}</nav><button className="profile-back" autoFocus onClick={close} aria-label="Close developer profile"><span aria-hidden>←</span> My World</button></header>
+  <div className="profile-layout" inert={closing||!ready}>
    <div className="profile-body" ref={body}>
     <header className="profile-intro profile-reveal"><div className="profile-intro-copy"><p className="profile-kicker">MY DEVELOPER WORLD / {section.label.toUpperCase()}</p><h2 id="profile-title">{section.title}</h2><p>{section.intro}</p></div><div className="profile-landmark" aria-hidden="true"><LandmarkBoundary><Suspense fallback={null}><MiniScene kind={view==='engineering'?'cases':view==='cloud'?'experience':'about'} reduced={reduced}/></Suspense></LandmarkBoundary><span className="landmark-halo"/></div></header>
     {view==='engineering'?<CaseStudies/>:view==='cloud'?<Experience/>:<About/>}

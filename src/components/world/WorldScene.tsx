@@ -1,3 +1,4 @@
+import type { BookPose } from '../cases/bookState'
 import { TreasureObject } from '../projects/TreasureObject'
 import type { Treasure } from '../projects/treasureState'
 /* eslint-disable react-hooks/immutability -- R3F cameras and shader uniforms are mutable Three.js objects, updated outside React rendering. */
@@ -9,7 +10,7 @@ import type { Awakening } from './entrance/awakening'
 import { sampleEntranceCamera } from './entrance/cameraPath'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import type { ThreeEvent } from '@react-three/fiber'
-import { OrbitControls } from '@react-three/drei'
+import { OrbitControls, RoundedBox } from '@react-three/drei'
 import { ACESFilmicToneMapping, Group, OrthographicCamera, PCFSoftShadowMap, Vector3 } from 'three'
 import type { OrbitControls as Controls } from 'three-stdlib'
 import { Sculpt } from './reconstruction/modeling'
@@ -206,7 +207,45 @@ export default function WorldScene({entrance,active,onSelect,exploring,paused,re
  </Canvas>
 }
 function MiniCamera({contact}:{contact:boolean}){const {camera,size,invalidate}=useThree();useEffect(()=>{if(camera instanceof OrthographicCamera){camera.zoom=contact?size.width/13:Math.min(size.width/2.35,size.height/2.05);camera.lookAt(contact?0:0,contact?.55:.5,0);camera.updateProjectionMatrix();invalidate()}},[camera,size,contact,invalidate]);return null}
-export function MiniScene({kind,treasure,reduced=false,hovered=false}:{kind:MiniKind;treasure?:Treasure;reduced?:boolean;hovered?:boolean}){
- const model=useMemo(()=>miniature(kind),[kind]),contact=kind==='contact',root=useRef<Group>(null)
- return <Canvas style={contact?{pointerEvents:'none'}:undefined} orthographic shadows={{type:PCFSoftShadowMap}} frameloop="demand" dpr={[1,1.5]} camera={{position:contact?[4,5,12]:[3.6,3.1,5],zoom:70}} gl={{alpha:true,antialias:true,toneMapping:ACESFilmicToneMapping,toneMappingExposure:1.05}} aria-hidden="true"><ambientLight intensity={contact?lighting.ambient:.55}/><directionalLight position={contact?lighting.key.position:[-3,6,4]} intensity={contact?lighting.key.intensity:3} color={contact?lighting.key.color:"#e3f0d8"} castShadow shadow-mapSize={[1024,1024]} shadow-normalBias={contact?.018:.06} shadow-bias={-.0005} shadow-camera-left={contact?-8:-5} shadow-camera-right={contact?8:5} shadow-camera-top={5} shadow-camera-bottom={-5}/><hemisphereLight args={contact?['#b9d2db','#28341c',lighting.hemisphere]:['#c0dfb8','#1a2015',.8]}/>{contact&&<directionalLight position={lighting.fill.position} color={lighting.fill.color} intensity={lighting.fill.intensity}/>}<group ref={root}><primitive object={model}/>{kind==='projects'&&treasure&&<TreasureObject pose={treasure} reduced={reduced} hovered={hovered}/>}</group><MiniCamera contact={contact}/>{contact&&<ContactLife/>}</Canvas>
+export function MiniScene({kind,treasure,book,reduced=false,hovered=false}:{kind:MiniKind;treasure?:Treasure;book?:BookPose;reduced?:boolean;hovered?:boolean}){
+  const model=useMemo(()=>miniature(kind),[kind]),contact=kind==='contact',root=useRef<Group>(null)
+  return <Canvas style={contact?{pointerEvents:'none'}:undefined} orthographic shadows={{type:PCFSoftShadowMap}} frameloop="demand" dpr={[1,1.5]} camera={{position:contact?[4,5,12]:[3.6,3.1,5],zoom:70}} gl={{alpha:true,antialias:true,toneMapping:ACESFilmicToneMapping,toneMappingExposure:1.05}} aria-hidden="true"><ambientLight intensity={contact?lighting.ambient:.55}/><directionalLight position={contact?lighting.key.position:[-3,6,4]} intensity={contact?lighting.key.intensity:3} color={contact?lighting.key.color:"#e3f0d8"} castShadow shadow-mapSize={[1024,1024]} shadow-normalBias={contact?.018:.06} shadow-bias={-.0005} shadow-camera-left={contact?-8:-5} shadow-camera-right={contact?8:5} shadow-camera-top={5} shadow-camera-bottom={-5}/><hemisphereLight args={contact?['#b9d2db','#28341c',lighting.hemisphere]:['#c0dfb8','#1a2015',.8]}/>{contact&&<directionalLight position={lighting.fill.position} color={lighting.fill.color} intensity={lighting.fill.intensity}/>}<group ref={root}><primitive object={model}/>{kind==='projects'&&treasure&&<TreasureObject pose={treasure} reduced={reduced} hovered={hovered}/>} {kind==='cases'&&<CaseStudyBooks pose={book} hovered={hovered} reduced={reduced}/>}</group><MiniCamera contact={contact}/>{contact&&<ContactLife/>}</Canvas>
+}
+
+const bookStyles=[
+ {position:[-.02,.29,.01] as const,rotation:-.09,size:[1.05,.2,.7] as const,color:'#173e42'},
+ {position:[.035,.49,-.025] as const,rotation:.075,size:[.96,.19,.66] as const,color:'#28543b'},
+ {position:[-.045,.68,.025] as const,rotation:-.055,size:[1.02,.2,.68] as const,color:'#647333'},
+ {position:[.015,.89,-.015] as const,rotation:.09,size:[.94,.21,.65] as const,color:'#a8d83f'},
+]
+function CaseStudyBooks({pose,hovered,reduced}:{pose?:BookPose;hovered:boolean;reduced:boolean}){
+ const top=useRef<Group>(null),topCover=useRef<Group>(null),pages=useRef<Group>(null)
+ const {invalidate}=useThree(),hover=useRef(0)
+ useEffect(()=>{if(pose)pose.invalidate=invalidate;return()=>{if(pose)delete pose.invalidate}},[pose,invalidate])
+ useEffect(()=>{invalidate()},[hovered,invalidate])
+ useFrame((_,delta)=>{
+  const target=hovered&&!reduced?1:0
+  hover.current+=(target-hover.current)*(1-Math.exp(-Math.min(delta,.05)*12))
+  const opening=pose?.opening??0
+  if(top.current)top.current.position.y=.89+(pose?.lift??0)+hover.current*.018*(1-opening)
+  if(topCover.current)topCover.current.rotation.z=opening*2.5+hover.current*.065*(1-opening)
+  if(pages.current)pages.current.rotation.z=opening*.26
+  if(Math.abs(target-hover.current)>.001)invalidate()
+ })
+ return <group>
+  {bookStyles.map((book,index)=><group key={book.color} ref={index===3?top:undefined} position={book.position} rotation={[0,book.rotation,0]}>
+   <Book size={book.size} color={book.color} open={index===3} topCover={index===3?topCover:undefined} pages={index===3?pages:undefined}/>
+  </group>)}
+ </group>
+}
+function Book({size,color,open=false,topCover,pages}:{size:readonly[number,number,number];color:string;open?:boolean;topCover?:React.RefObject<Group|null>;pages?:React.RefObject<Group|null>}){
+ const [width,height,depth]=size,cover=.045,paper=height-cover*2-.014
+ return <>
+  <RoundedBox args={[.055,height,depth]} radius={.02} smoothness={2} position={[-width/2+.024,0,0]} castShadow><meshStandardMaterial color={color} roughness={.8}/></RoundedBox>
+  <RoundedBox args={[width,cover,depth]} radius={.035} smoothness={3} position={[0,-height/2+cover/2,0]} castShadow receiveShadow><meshStandardMaterial color={color} roughness={.66}/></RoundedBox>
+  <RoundedBox args={[width-.095,paper,depth-.075]} radius={.018} smoothness={2} position={[.022,-.002,0]} castShadow receiveShadow><meshStandardMaterial color="#eadfbf" roughness={.82}/></RoundedBox>
+  {[-.026,0,.026].map((y,index)=><mesh key={index} position={[.024,y,depth/2-.036]}><boxGeometry args={[width-.16,.007,.008]}/><meshStandardMaterial color="#c8b98f" roughness={.9}/></mesh>)}
+  {open?<group ref={pages} position={[-width/2+.04,height/2-cover-.025,0]}>{[0,1,2].map(index=><RoundedBox key={index} args={[width-.16,.012,depth-.11]} radius={.012} smoothness={2} position={[width/2-.04,index*.007,0]}><meshStandardMaterial color={index===2?'#f2e8ca':'#e4d7b6'} roughness={.86}/></RoundedBox>)}</group>:null}
+  <group ref={topCover} position={open?[-width/2+.022,height/2-cover/2,0]:[0,height/2-cover/2,0]}><RoundedBox args={[width,cover,depth]} radius={.035} smoothness={3} position={open?[width/2-.022,0,0]:[0,0,0]} castShadow receiveShadow><meshStandardMaterial color={color} roughness={.62}/></RoundedBox></group>
+ </>
 }
