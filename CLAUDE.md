@@ -171,6 +171,11 @@ assets/raw/         ảnh gốc ChatGPT tạo (pf_00 … pf_14) — giữ để 
 - **Sprite sheet nhân vật** (đã kiểm chứng, ra rất sạch): với động tác vẫy tay phải mô tả cơ học rõ ("arm raised and stays still, elbow fixed, only forearm + palm swing side to side like a windshield wiper", liệt kê từng frame: far left, slightly left, slightly right, far right) — nếu chỉ nói "waving" thì ChatGPT vẽ giơ tay lên hạ xuống. Prompt chung: "SPRITE SHEET … same pixel-art style … N frames … one single horizontal row, same size, evenly spaced with clear gaps, feet on the same baseline, full body … flat solid magenta #FF00FF, no shadow, no floor, no text". Cắt frame theo cột trống, căn theo tâm phần chân (40% dưới) + đáy chân. Script mẫu: key `min(r,b)-g` (40→140 = alpha 1→0).
 - Công cụ Resize của ChatGPT tối đa 16:9; không upload file local được qua extension.
 
+## 5b. Deploy (25/11)
+- Web chạy ở **https://trungdao.dev** (+ www.trungdao.dev), tên miền mua trên Cloudflare Registrar, gắn làm Custom Domain (Production) của Worker `portfolio`. Link cũ portfolio.daongoctrung35.workers.dev vẫn chạy.
+- Cloudflare Workers Builds nối repo GitHub `GaoBlues2/Portfolio-Website`, nhánh `main`: push là tự deploy (build `npm run build` = `tools/build.mjs` chép site sang `dist/`, bỏ `assets/raw`, `bg.png`, `photo_0..7`; deploy `npx wrangler deploy … --assets ./dist`). `wrangler.jsonc` cũng trỏ `./dist`.
+- Agent KHÔNG push được (máy ảo chặn GitHub, phiên chưa nối GitHub): agent commit (tác giả sss609 như các commit cũ), người dùng tự `git push origin main`. `.gitignore` bỏ `assets/raw/` (~180 MB) và `Claude outputs/`.
+
 ## 6. Kiểm tra & bàn giao (bắt buộc)
 
 - Quay frame bằng Playwright (Chrome headless ở `/usr/bin/google-chrome`), soi từng frame / đo chênh lệch giữa các frame để bắt giật, chồng hình. Máy test không có mạng nên font hiện là font dự phòng.
@@ -202,6 +207,10 @@ assets/raw/         ảnh gốc ChatGPT tạo (pf_00 … pf_14) — giữ để 
 - Form KHÔNG có máy chủ: INSERT COIN = đồng xu rơi vào nút + tiếng cạch → `mailto:` soạn sẵn tiêu đề "[Portfolio] {loại} · from {tên}" + nội dung, rồi hiện dòng dự phòng ghi email. Gửi → mở khoá thành tựu FIRST CONTACT (`pf_ach_talk`) ở ABOUT. Note EMAIL có nút COPY.
 - File: `js/talk.js`, `js/talk-data.js` (chữ + liên hệ), `css/talk.src.css` → `python3 tools/about_css.py`. Version `talk.css?v=2`, `talk.js?v=2`, `talk-data.js?v=2`, `about-data.js?v=3`.
 - Liên hệ: điện thoại 0913 558 765 (Trung đưa 25/11, note EMAIL · PHONE có nút CALL `tel:+84913558765`); (ChatGPT, CẦN XÁC NHẬN) email ethanftd@gmail.com, GitHub @GaoBlues2 (chỉ biết username), LinkedIn chưa có (`linkedin: null` = ẩn note), trình độ tiếng Anh chưa rõ.
+
+## 4k. Điện thoại: bắt buộc màn NGANG (25/11)
+- Kiểm tra mobile: màn dọc hỏng hết (trang chủ chỉ thấy 1/5 phòng, nav tràn; story chỉ thấy lát hẹp, hộp thoại 1 chữ/dòng). Màn ngang 844×390 thì ổn. Người dùng chọn **bắt xoay ngang** thay vì làm layout dọc.
+- `js/rotate.js` (nạp ngay sau loader.js): điện thoại = `pointer: coarse` + cạnh ngắn màn hình < 820 (không tính iPad). Lần chạm đầu → `requestFullscreen` + `screen.orientation.lock('landscape')` (chỉ Android; iPhone Safari không hỗ trợ → im lặng bỏ qua). Còn cầm dọc → phủ `.rotate` (z 10000, điện thoại pixel xoay, "ROTATE YOUR PHONE", nút "▶ TAP TO ROTATE" chỉ hiện khi khoá được). CSS cuối style.css. Thử trên máy tính: `index.html?rotate=1`. `style.css?v=12`, `rotate.js?v=1`.
 
 ## 7. Việc còn tồn / bước tiếp theo
 
