@@ -77,7 +77,7 @@ assets/raw/         ảnh gốc ChatGPT tạo (pf_00 … pf_14) — giữ để 
 - `prefers-reduced-motion` tắt bớt chuyển động.
 
 ## 4a. Màn chờ (25/11, giống paulfey.me)
-- `#loader` ngay đầu `<body>` + `js/loader.js` (chạy trước mọi script): nền be `#E6D8C0`, số năm pixel to (mực + bóng cam) đếm 2015 → 2026 trong 1.6s (ease-out, nhanh rồi chậm), dừng 0.45s, chờ `window.load` (tối đa 6s), rồi XÉ ĐÔI: nửa trên trượt sang trái, nửa dưới sang phải (0.75s, cubic-bezier(.7,0,.84,0), nửa dưới trễ .05s) lộ căn phòng. CSS cuối style.css (`.loader`). Font được preload. `style.css?v=11`, `loader.js?v=1`.
+- `#loader` ngay đầu `<body>` + `js/loader.js` (chạy trước mọi script): nền be `#E6D8C0`, số năm pixel to (mực + bóng cam) GIỮ 2015 0.7s rồi đếm từ từ tới 2026 trong 1.8s (ease-in-out, người dùng muốn giữ 2015 một lúc), dừng 0.45s, chờ `window.load` (tối đa 7s), rồi XÉ ĐÔI: nửa trên trượt sang trái, nửa dưới sang phải (0.75s, cubic-bezier(.7,0,.84,0), nửa dưới trễ .05s) lộ căn phòng. CSS cuối style.css (`.loader`). Font được preload. `style.css?v=11`, `loader.js?v=3`.
 
 ## 4b. MY STORY – World 1 "The Departure" (ĐÃ XONG bản đầu)
 
