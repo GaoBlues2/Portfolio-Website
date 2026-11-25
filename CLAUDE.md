@@ -76,6 +76,9 @@ assets/raw/         ảnh gốc ChatGPT tạo (pf_00 … pf_14) — giữ để 
 - **Hero**: "Hi, I'm Trung." 86px chữ kem viền mực 4px + bóng cam, "Trung" vàng nhảy nhẹ; tagline trên nhãn giấy, chấm kim cương cam, con trỏ nhấp nháy.
 - `prefers-reduced-motion` tắt bớt chuyển động.
 
+## 4a. Màn chờ (25/11, giống paulfey.me)
+- `#loader` ngay đầu `<body>` + `js/loader.js` (chạy trước mọi script): nền be `#E6D8C0`, số năm pixel to (mực + bóng cam) đếm 2015 → 2026 trong 1.6s (ease-out, nhanh rồi chậm), dừng 0.45s, chờ `window.load` (tối đa 6s), rồi XÉ ĐÔI: nửa trên trượt sang trái, nửa dưới sang phải (0.75s, cubic-bezier(.7,0,.84,0), nửa dưới trễ .05s) lộ căn phòng. CSS cuối style.css (`.loader`). Font được preload. `style.css?v=11`, `loader.js?v=1`.
+
 ## 4b. MY STORY – World 1 "The Departure" (ĐÃ XONG bản đầu)
 
 - Mở từ trang chủ: click ảnh cưới / nav MY STORY (hoặc lăn chuột xuống, vuốt lên trên mobile) → còi "tút tút" + **khói pixel** cuộn lên từ ly trà phủ kín màn → tan sang hai bên lộ ga Ninh Bình. Vào thẳng: `index.html#story`. ESC / ◀ HOME = khói phủ rồi về trang chủ.

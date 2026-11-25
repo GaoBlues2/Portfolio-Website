@@ -216,3 +216,16 @@ body { color: var(--ink); font-family: var(--pixel-2); -webkit-font-smoothing: n
   .zzz span:nth-child(2) { transform: translate(14px, -22px); }
   .zzz span:nth-child(3) { transform: translate(28px, -46px); }
 }
+
+/* ---------- Màn chờ: năm 2015 → 2026 rồi xé đôi (js/loader.js) ---------- */
+.loader { position: fixed; inset: 0; z-index: 100; pointer-events: auto; }
+.loader__half { position: absolute; inset: 0; display: grid; place-items: center; background: #E6D8C0;
+  transition: translate .75s cubic-bezier(.7, 0, .84, 0); }
+.loader__half--t { clip-path: inset(0 0 50% 0); }
+.loader__half--b { clip-path: inset(50% 0 0 0); transition-delay: .05s; }
+.loader__half span { font-family: var(--pixel); font-weight: 700; font-size: clamp(96px, 19vw, 280px); line-height: 1; letter-spacing: .02em;
+  color: #2a1a10; text-shadow: .045em .045em 0 #f26a2e; font-variant-numeric: tabular-nums; }
+.loader.split { pointer-events: none; }
+.loader.split .loader__half--t { translate: -110vw 0; }
+.loader.split .loader__half--b { translate: 110vw 0; }
+@media (prefers-reduced-motion: reduce) { .loader__half { transition: opacity .3s; } .loader.split .loader__half { translate: none; opacity: 0; } }
