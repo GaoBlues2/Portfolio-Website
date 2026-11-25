@@ -229,3 +229,22 @@ body { color: var(--ink); font-family: var(--pixel-2); -webkit-font-smoothing: n
 .loader.split .loader__half--t { translate: -110vw 0; }
 .loader.split .loader__half--b { translate: 110vw 0; }
 @media (prefers-reduced-motion: reduce) { .loader__half { transition: opacity .3s; } .loader.split .loader__half { translate: none; opacity: 0; } }
+
+
+/* ===== Điện thoại cầm dọc: nhắc xoay ngang (js/rotate.js) ===== */
+.rotate { position: fixed; inset: 0; z-index: 10000; display: none; flex-direction: column; align-items: center; justify-content: center;
+  gap: 18px; padding: 24px; text-align: center; background: #E6D8C0; color: #2a1a10; font-family: var(--pixel, 'Pixelify Sans', monospace);
+  touch-action: none; overscroll-behavior: contain; }
+.rotate.on { display: flex; }
+html.rotate-block, html.rotate-block body { overflow: hidden !important; }
+.rotate__phone { position: relative; width: 64px; height: 108px; margin-bottom: 26px; border: 6px solid #2a1a10; border-radius: 4px;
+  background: #f6efe2; box-shadow: 6px 6px 0 #f26a2e; animation: rotate-phone 2.4s steps(1, end) infinite; }
+.rotate__phone::before { content: ''; position: absolute; inset: 8px 4px 14px; background: linear-gradient(#ffd23f 0 34%, #f26a2e 34% 66%, #b8461a 66%); }
+.rotate__phone::after { content: ''; position: absolute; left: 50%; bottom: 3px; width: 8px; height: 6px; translate: -50% 0; background: #2a1a10; }
+@keyframes rotate-phone { 0%, 30% { rotate: 0deg; } 38% { rotate: -30deg; } 46% { rotate: -60deg; } 54%, 88% { rotate: -90deg; } 100% { rotate: 0deg; } }
+.rotate__title { margin: 0; font-size: 26px; font-weight: 700; letter-spacing: .04em; text-shadow: 3px 3px 0 #f26a2e; }
+.rotate__sub { margin: 0; font-size: 16px; opacity: .8; }
+.rotate__btn { margin-top: 10px; padding: 12px 20px; font: inherit; font-size: 16px; font-weight: 700; color: #2a1a10; background: #ffd23f;
+  border: 4px solid #2a1a10; box-shadow: 4px 4px 0 #2a1a10; cursor: pointer; }
+.rotate__btn:active { translate: 3px 3px; box-shadow: 1px 1px 0 #2a1a10; }
+@media (prefers-reduced-motion: reduce) { .rotate__phone { animation: none; } .rotate__phone { rotate: -90deg; } }
