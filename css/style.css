@@ -217,7 +217,7 @@ body { color: var(--ink); font-family: var(--pixel-2); -webkit-font-smoothing: n
   .zzz span:nth-child(3) { transform: translate(28px, -46px); }
 }
 
-/* ---------- Màn chờ: năm 2015 → 2026 rồi xé đôi (js/loader.js) ---------- */
+/* ---------- Màn chờ: năm 1996 → 2026 rồi xé đôi (js/loader.js) ---------- */
 .loader { position: fixed; inset: 0; z-index: 100; pointer-events: auto; }
 .loader__half { position: absolute; inset: 0; display: grid; place-items: center; background: #E6D8C0;
   transition: translate .75s cubic-bezier(.7, 0, .84, 0); }

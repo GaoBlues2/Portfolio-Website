@@ -1,10 +1,10 @@
-/* Màn chờ kiểu paulfey.me: giữ 2015 một lúc, rồi đếm từ từ tới 2026 (chậm – nhanh – chậm), dừng một nhịp,
+/* Màn chờ kiểu paulfey.me: giữ 1996 (năm sinh) một lúc, rồi đếm từ từ tới 2026 (chậm – nhanh – chậm), dừng một nhịp,
    rồi xé đôi theo chiều ngang: nửa trên trượt sang trái, nửa dưới sang phải, lộ căn phòng.
    Đặt ngay sau <div class="loader"> trong index.html để chạy trước mọi script khác. */
 (() => {
   const el = document.getElementById('loader');
   if (!el) return;
-  const FROM = 2015, TO = 2026, START_MS = 700, COUNT_MS = 1800, HOLD_MS = 450, MAX_WAIT = 7000;
+  const FROM = 1996, TO = 2026, START_MS = 700, COUNT_MS = 2200, HOLD_MS = 450, MAX_WAIT = 7000;
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const spans = el.querySelectorAll('span');
   const set = (y) => spans.forEach((s) => { s.textContent = y; });
