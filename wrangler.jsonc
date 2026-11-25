@@ -1,0 +1,6 @@
+// Cloudflare Worker "portfolio": chỉ phục vụ file tĩnh trong dist/ (tạo bằng `npm run build`).
+{
+  "name": "portfolio",
+  "compatibility_date": "2026-11-01",
+  "assets": { "directory": "./dist" }
+}

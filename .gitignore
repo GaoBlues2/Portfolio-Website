@@ -1,24 +1,10 @@
-# Logs
-logs
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
-
 node_modules
 dist
-dist-ssr
-*.local
-
-# Editor directories and files
-.vscode/*
-!.vscode/extensions.json
-.idea
+.vite
+.wrangler
 .DS_Store
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
+*.log
+# ảnh gốc ChatGPT (~180 MB) chỉ giữ trên máy, không đưa lên GitHub / web
+assets/raw/
+# file trung chuyển của Claude
+Claude outputs/

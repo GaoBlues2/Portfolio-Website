@@ -1,0 +1,150 @@
+/* MY WORK – kệ băng game. File nguồn: U(n) = n px thiết kế (ảnh kệ 1672x941) × --u.
+   Sinh css/work.css bằng: python3 tools/about_css.py  (đừng sửa work.css trực tiếp) */
+
+.work { position: fixed; inset: 0; z-index: 57; font-family: var(--pixel); color: var(--ink); --u: 1; overflow: hidden;
+  display: grid; place-items: center; background: #1a0f08; -webkit-font-smoothing: none; }
+.work[hidden] { display: none; }
+.work::before { content: ""; position: absolute; inset: -40px; background: url(../assets/work/library.webp?v=1) center / cover no-repeat;
+  filter: blur(18px) brightness(.55); }
+
+/* trang chủ zoom vào máy chơi game */
+body.work-zoom .viewport { transform: scale(3.2); filter: brightness(.9); }
+
+/* màn CRT bật / tắt */
+.work__crt { position: relative; width: U(1672); height: U(941); transform: scaleY(.004) scaleX(0); filter: brightness(3);
+  box-shadow: 0 0 U(80) rgba(0, 0, 0, .6); }
+.work.on .work__crt { animation: crtOn .5s steps(8) forwards; }
+.work.off .work__crt { animation: crtOff .4s steps(6) forwards; }
+@keyframes crtOn { 0% { transform: scaleY(.004) scaleX(0); filter: brightness(3); } 35% { transform: scaleY(.004) scaleX(1); filter: brightness(3); }
+  100% { transform: none; filter: none; } }
+@keyframes crtOff { 0% { transform: none; filter: none; } 55% { transform: scaleY(.004) scaleX(1); filter: brightness(3); } 100% { transform: scaleY(.004) scaleX(0); filter: brightness(3); } }
+.work__crt::after { content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 30;
+  background: repeating-linear-gradient(0deg, rgba(0, 0, 0, .06) 0 U(2), transparent U(2) U(4)); }
+
+.work__lib { position: absolute; inset: 0; background: url(../assets/work/library.webp?v=1) 0 0 / 100% 100%; }
+
+/* tiêu đề + bộ lọc trên thanh gỗ trên cùng */
+.work__top { position: absolute; left: 0; right: 0; top: U(14); display: flex; align-items: center; justify-content: center; gap: U(30); z-index: 5; }
+.work__title { display: flex; align-items: center; gap: U(14); padding: U(4) U(26); font-size: U(38); letter-spacing: U(4); line-height: 1; color: #ffd23f;
+  text-shadow: U(3) U(3) 0 #2a1a10, U(-2) 0 0 #2a1a10, 0 U(-2) 0 #2a1a10, U(2) 0 0 #2a1a10; }
+.work__title::before, .work__title::after { content: ""; width: U(46); height: U(30); background: url(../assets/about/deco_laurel_l.png?v=1) center / contain no-repeat; }
+.work__title::after { background-image: url(../assets/about/deco_laurel_r.png?v=1); }
+.work__filters { display: flex; gap: U(6); }
+.work__f { font: inherit; font-size: U(16); font-weight: 700; letter-spacing: U(1); padding: U(5) U(12); cursor: pointer; color: #f6efe2;
+  background: rgba(42, 26, 16, .82); border: U(3) solid #8a5a2a; border-radius: U(6); }
+.work__f:hover { color: #ffd23f; }
+.work__f.on { color: #2a1a10; background: #ffd23f; border-color: #2a1a10; }
+
+/* bảng đồng trên mép kệ */
+.work__plaque { position: absolute; z-index: 4; width: U(180); margin-left: U(-90); text-align: center; font-size: U(15); font-weight: 700; letter-spacing: U(2);
+  color: #5a3410; text-shadow: 0 U(1) 0 rgba(255, 240, 190, .7); line-height: U(34); pointer-events: none; }
+
+/* hàng băng trên mỗi tầng kệ */
+.work__row { position: absolute; left: U(170); right: U(150); display: flex; justify-content: center; align-items: flex-end; gap: U(48); z-index: 3; height: U(170); }
+.cart { position: relative; flex: none; width: U(160); aspect-ratio: 309 / 289; padding: 0; border: 0; cursor: pointer; font: inherit;
+  background: url(../assets/work/carts.png?v=1) 0 0 / 500% 100% no-repeat; background-position-x: calc(var(--sh) * 25%);
+  filter: drop-shadow(U(4) U(3) 0 rgba(42, 20, 6, .45)); transition: transform .15s steps(3), filter .15s steps(2), opacity .2s steps(3); }
+.cart--big { width: U(176); }
+.cart__art { position: absolute; left: 14.9%; top: 30.8%; width: 71.2%; height: 43.3%;
+  background: url(../assets/work/labels.webp?v=1) 0 0 / 900% 100% no-repeat; background-position-x: calc(var(--a) * 12.5%); }
+.cart__name { position: absolute; left: 15.9%; top: 75.6%; width: 68.6%; height: 9%; display: grid; place-items: center; overflow: hidden;
+  font-size: calc(var(--cw) * .058); font-weight: 700; letter-spacing: 0; line-height: 1; color: #2a1a10; white-space: nowrap; }
+.cart { --cw: U(160); width: U(160); } .cart--big { --cw: U(176); width: U(176); }
+.cart__tag { position: absolute; right: U(-8); top: U(-8); padding: U(2) U(6); font-size: U(11); font-weight: 700; letter-spacing: U(1);
+  color: #2a1a10; background: #ffd23f; border: U(2) solid #2a1a10; border-radius: U(4); }
+.cart__tag--wip { background: #9ad1ff; }
+.cart:hover, .cart.sel { transform: translateY(U(-16)); filter: drop-shadow(0 0 U(6) #ffd23f) drop-shadow(U(4) U(10) 0 rgba(42, 20, 6, .4)); }
+.cart.sel::after { content: ""; position: absolute; left: 50%; top: U(-34); width: U(20); height: U(24); margin-left: U(-10); transform: rotate(90deg);
+  background: url(../assets/about/deco_cursor.png?v=1) center / contain no-repeat; animation: wkBob .6s steps(2) infinite; }
+@keyframes wkBob { 50% { translate: 0 U(5); } }
+.cart.dim { opacity: .28; filter: grayscale(1); pointer-events: none; }
+
+/* máy chơi game + thanh thông tin trên bàn */
+.work__console { position: absolute; right: U(70); top: U(744); width: U(300); height: U(162); z-index: 6;
+  background: url(../assets/console.png?v=1) 0 0 / 100% 100% no-repeat; filter: drop-shadow(U(6) U(5) U(3) rgba(40, 15, 4, .45)); }
+.work__console i { position: absolute; left: 46.9%; top: 54.8%; width: U(9); height: U(6); transform: translate(-50%, -50%);
+  background: #ff4a35; box-shadow: 0 0 U(8) U(3) rgba(255, 70, 40, .75); animation: ledBlink 2.6s steps(1) infinite; }
+.work__console.thunk { animation: wkThunk .3s steps(4); }
+@keyframes wkThunk { 30% { translate: 0 U(6); } 60% { translate: 0 U(-2); } }
+.work__info { position: absolute; left: U(110); top: U(820); width: U(1060); min-height: U(86); z-index: 6; display: flex; align-items: center; gap: U(18);
+  padding: U(4) U(14); font-size: U(19); border-style: solid; border-width: U(12); border-image: url(../assets/about/deco_dialog.png?v=1) 26 fill / U(12) stretch; }
+.work__info b { color: #b8461a; font-size: U(24); letter-spacing: U(1); }
+.work__info small { display: block; font-size: U(15); opacity: .75; margin-top: U(3); }
+.work__info em { margin-left: auto; font-style: normal; font-size: U(15); opacity: .7; white-space: nowrap; animation: abBlink 1.2s steps(1) infinite; }
+.work__close { position: absolute; right: U(22); top: U(20); z-index: 8; width: U(48); height: U(48); font: inherit; font-size: U(22); font-weight: 700;
+  color: #2a1a10; background: #ffd23f; border: U(4) solid #2a1a10; border-radius: U(8); cursor: pointer; box-shadow: U(3) U(3) 0 rgba(0, 0, 0, .35); }
+.work__close:hover { background: #f26a2e; color: #fff6e6; }
+.work__fly { position: absolute; z-index: 20; pointer-events: none; }
+
+/* màn tiêu đề sau khi cắm băng */
+.work__boot { position: absolute; inset: 0; z-index: 25; display: none; flex-direction: column; align-items: center; justify-content: center; gap: U(26);
+  background: radial-gradient(ellipse at 50% 45%, #2b1f4a, #0b0714 70%); color: #fff; cursor: pointer; }
+.work__boot.on { display: flex; animation: wkFlash .35s steps(3); }
+@keyframes wkFlash { 0% { background: #fff; } }
+.work__boot i { width: U(560); aspect-ratio: 4 / 3; border: U(6) solid #fff; box-shadow: 0 0 0 U(6) #2a1a10, 0 0 U(60) rgba(140, 100, 255, .6);
+  background: url(../assets/work/labels.webp?v=1) 0 0 / 900% 100% no-repeat; background-position-x: calc(var(--a) * 12.5%); image-rendering: pixelated; }
+.work__boot b { font-size: U(64); letter-spacing: U(5); color: var(--c, #ffd23f); text-shadow: U(5) U(5) 0 #000; line-height: 1; text-align: center; }
+.work__boot span { font-size: U(26); letter-spacing: U(6); color: #ffd23f; animation: abBlink .8s steps(1) infinite; }
+
+/* màn chi tiết – bìa sau hộp game */
+.work__detail { position: absolute; left: U(90); top: U(52); width: U(1492); height: U(840); z-index: 22; display: none; flex-direction: column;
+  border-style: solid; border-width: U(48); border-image: url(../assets/about/frame_paper.png?v=1) 64 fill / U(48) stretch;
+  filter: drop-shadow(U(8) U(8) 0 rgba(0, 0, 0, .4)); padding: 0 U(14) U(6); }
+.work__detail.on { display: flex; animation: abPage .3s steps(4); }
+.wd__head { display: flex; align-items: center; gap: U(18); margin-bottom: U(14); }
+.wd__cart { width: U(96); aspect-ratio: 309 / 289; flex: none; background: url(../assets/work/carts.png?v=1) 0 0 / 500% 100% no-repeat; background-position-x: calc(var(--sh) * 25%); position: relative; }
+.wd__cart i { position: absolute; left: 14.9%; top: 30.8%; width: 71.2%; height: 43.3%; background: url(../assets/work/labels.webp?v=1) 0 0 / 900% 100% no-repeat; background-position-x: calc(var(--a) * 12.5%); }
+.wd__head h2 { font-size: U(56); letter-spacing: U(3); line-height: 1; color: var(--c); text-shadow: U(3) U(3) 0 #2a1a10; }
+.wd__meta { display: flex; flex-wrap: wrap; gap: U(8); margin-top: U(10); font-size: U(17); font-weight: 700; }
+.wd__meta span { padding: U(3) U(10); background: #f2dfb8; border: U(3) solid #b88a3a; border-radius: U(6); }
+.wd__meta .t { background: #2a1a10; color: #ffd23f; border-color: #2a1a10; }
+.wd__meta .w { background: #9ad1ff; border-color: #2a1a10; }
+.wd__body { flex: 1; min-height: 0; display: grid; grid-template-columns: U(700) 1fr; gap: U(34); align-items: start; }
+.wd__screen { position: relative; align-self: start; padding: U(18); background: #2a2622; border: U(5) solid #1a1410; border-radius: U(18);
+  box-shadow: inset 0 0 0 U(4) #4a443e, U(6) U(6) 0 rgba(42, 26, 16, .3); }
+.wd__screen > div { position: relative; aspect-ratio: 4 / 3; border-radius: U(10); overflow: hidden; background: #0b0714 center / cover no-repeat; image-rendering: pixelated; }
+.wd__screen > div::after { content: ""; position: absolute; inset: 0; background: repeating-linear-gradient(0deg, rgba(0, 0, 0, .12) 0 U(2), transparent U(2) U(4)),
+  radial-gradient(ellipse at 50% 50%, transparent 60%, rgba(0, 0, 0, .45)); pointer-events: none; }
+.wd__screen p { margin-top: U(10); text-align: center; font-size: U(14); letter-spacing: U(2); color: #d9c9a8; }
+.wd__nav { position: absolute; top: 45%; z-index: 2; width: U(40); height: U(40); font: inherit; font-size: U(20); cursor: pointer; color: #2a1a10; background: #ffd23f; border: U(3) solid #2a1a10; border-radius: U(6); }
+.wd__nav--l { left: U(-14); } .wd__nav--r { right: U(-14); }
+.wd__info { display: flex; flex-direction: column; gap: U(20); min-height: 0; overflow: auto; padding-right: U(6); }
+.wd__sec h4 { display: flex; align-items: center; gap: U(8); font-size: U(20); letter-spacing: U(2); color: #b8461a; margin-bottom: U(5); }
+.wd__sec h4 .ic { width: U(30); height: U(30); }
+.wd__sec p { font-size: U(23); line-height: 1.4; }
+.wd__party { display: flex; flex-wrap: wrap; gap: U(8); }
+.wd__party span { display: inline-flex; align-items: center; gap: U(6); padding: U(2) U(8); font-size: U(18); font-weight: 700;
+  border-style: solid; border-width: U(8); border-image: url(../assets/about/deco_card.png?v=1) 22 fill / U(8) stretch; }
+.wd__party .ic { width: U(32); height: U(32); }
+.wd__score { display: flex; align-items: center; gap: U(12); font-size: U(23); }
+.wd__score::before { content: "🏆"; font-size: U(26); }
+.wd__nda { font-size: U(17); opacity: .65; }
+.wd__btns { display: flex; gap: U(14); justify-content: flex-end; margin-top: auto; }
+.wd__btns .chip { font-size: U(24); font-weight: 700; padding: U(8) U(18); border-width: U(3); border-radius: U(8); }
+.wd__btns .chip.play { background: #f26a2e; color: #fff6e6; }
+.wd__btns .chip.play:hover { background: #ffd23f; color: #2a1a10; }
+.wd__btns .chip[aria-disabled="true"] { opacity: .45; pointer-events: none; }
+
+/* ---------- Màn dọc (mobile) ---------- */
+.work--narrow .work__crt { width: 100vw; height: 100%; overflow-y: auto; overflow-x: hidden; }
+.work--narrow .work__lib { position: fixed; background-size: cover; background-position: center; filter: brightness(.75); }
+.work--narrow .work__top { position: relative; top: 0; flex-direction: column; gap: U(8); padding: U(18) U(10) U(10); }
+.work--narrow .work__filters { flex-wrap: wrap; justify-content: center; }
+.work--narrow .work__plaque { position: relative; display: block; left: auto !important; top: auto !important; margin: U(26) auto U(8) !important; line-height: U(38);
+  background: linear-gradient(#ffe18a, #d9a43a); border: U(3) solid #6a4410; border-radius: U(6); }
+.work--narrow .work__row { position: relative; left: 0; right: 0; top: auto !important; height: auto; flex-wrap: wrap; gap: U(26) U(18); padding: U(10) U(10) U(18);
+  background: linear-gradient(transparent calc(100% - U(26)), #8a4a1a calc(100% - U(26)), #6a3410); }
+.work--narrow .cart { --cw: U(210); width: U(210); } .work--narrow .cart--big { --cw: U(210); width: U(210); }
+.work--narrow .work__console { display: none; }
+.work--narrow .work__info { position: sticky; left: 0; top: auto; bottom: 0; width: auto; margin: U(20) U(10) 0; }
+.work--narrow .work__close { position: fixed; }
+.work--narrow .work__detail { position: fixed; left: U(8); right: U(8); top: U(8); bottom: U(8); width: auto; height: auto; overflow-y: auto; border-width: U(30); border-image-width: U(30); }
+.work--narrow .wd__body { grid-template-columns: 1fr; flex: none; }
+.work--narrow .wd__btns { margin-top: U(20); }
+.work--narrow .wd__info { overflow: visible; }
+.work--narrow .work__boot i { width: 80vw; }
+
+@media (prefers-reduced-motion: reduce) {
+  .work.on .work__crt, .work.off .work__crt { animation-duration: .01s; }
+  .cart.sel::after, .work__boot span { animation: none; }
+}

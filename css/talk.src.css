@@ -1,0 +1,91 @@
+/* LET'S TALK – bảng ghim. File nguồn: U(n) = n px thiết kế (ảnh bảng 1672x941) × --u.
+   Sinh css/talk.css bằng: python3 tools/about_css.py  (đừng sửa talk.css trực tiếp) */
+
+.talk { position: fixed; inset: 0; z-index: 57; font-family: var(--pixel); color: var(--ink); --u: 1; overflow: hidden;
+  display: grid; place-items: center; -webkit-font-smoothing: none; }
+.talk[hidden] { display: none; }
+.talk__dim { position: absolute; inset: 0; background: rgba(26, 14, 6, .55); opacity: 0; transition: opacity .4s steps(5); }
+.talk.on .talk__dim { opacity: 1; }
+body.talk-zoom .viewport { transform: scale(2.4); filter: blur(2px) brightness(.8); }
+
+.talk__board { position: relative; width: U(1672); height: U(941); background: url(../assets/talk/board.webp?v=1) 0 0 / 100% 100%;
+  transform-origin: var(--fx, 50%) var(--fy, 50%); transform: scale(.2); opacity: 0; filter: drop-shadow(0 U(10) U(30) rgba(0, 0, 0, .5)); }
+.talk.unfold .talk__board { transform: none; opacity: 1; transition: transform .5s steps(8), opacity .2s steps(2); }
+.talk.fold .talk__board { transform: scale(.2); opacity: 0; transition: transform .4s steps(6), opacity .3s steps(3) .1s; }
+
+/* giấy ghim: hiện lần lượt */
+.pin-it { opacity: 0; transform: translateY(U(-30)) rotate(var(--t, 0deg)) scale(1.08); }
+.talk.play .pin-it { opacity: 1; transform: rotate(var(--t, 0deg)); transition: opacity .15s steps(2), transform .2s steps(3); transition-delay: calc(var(--k) * 110ms); }
+.pin { position: absolute; left: 50%; top: U(-20); width: U(30); height: U(44); margin-left: U(-15); z-index: 3; background: center / contain no-repeat;
+  filter: drop-shadow(U(3) U(4) 0 rgba(40, 15, 4, .35)); }
+.pin--6 { background-image: url(../assets/talk/pin_red.png?v=1); } .pin--7 { background-image: url(../assets/talk/pin_yellow.png?v=1); }
+
+/* tiêu đề trên dải giấy */
+.talk__title { position: absolute; left: U(730); top: U(70); width: U(560); padding: U(14) U(20) U(12); text-align: center; z-index: 2; --t: -2deg;
+  background: #fffaf0; box-shadow: U(4) U(5) 0 rgba(60, 25, 5, .3); }
+.talk__title::before, .talk__title::after { content: ""; position: absolute; top: U(-10); width: U(80); height: U(26); background: rgba(255, 240, 190, .75); }
+.talk__title::before { left: U(-20); transform: rotate(-12deg); } .talk__title::after { right: U(-20); transform: rotate(10deg); }
+.talk__title h2 { font-size: U(54); letter-spacing: U(4); line-height: 1; color: #f26a2e; text-shadow: U(3) U(3) 0 #2a1a10; }
+.talk__title p { margin-top: U(6); font-size: U(18); }
+
+/* tờ giấy kẻ dòng = form */
+.talk__form { position: absolute; left: U(110); top: U(150); width: U(570); height: U(745); padding: U(76) U(40) U(28) U(122); z-index: 2; --t: -1deg;
+  background: url(../assets/talk/paper.png?v=1) 0 0 / 100% 100% no-repeat; filter: drop-shadow(U(5) U(6) 0 rgba(60, 25, 5, .3));
+  display: flex; flex-direction: column; gap: U(12); }
+.talk__form h3 { font-size: U(28); letter-spacing: U(3); color: #b8461a; margin-bottom: U(4); }
+.talk__form label { display: flex; flex-direction: column; gap: U(4); font-size: U(16); font-weight: 700; letter-spacing: U(2); color: #3a5a9a; }
+.talk__form input, .talk__form textarea { font: inherit; font-size: U(20); font-weight: 600; color: #2a1a10; padding: U(4) U(6); background: transparent;
+  border: 0; border-bottom: U(3) dashed rgba(58, 90, 154, .5); outline: none; resize: none; }
+.talk__form textarea { height: U(150); line-height: U(30); border: U(3) dashed rgba(58, 90, 154, .35); border-radius: U(6); background: rgba(255, 255, 255, .35); }
+.talk__form input:focus, .talk__form textarea:focus { border-color: #f26a2e; background: rgba(255, 214, 63, .15); }
+.talk__form ::placeholder { color: rgba(42, 26, 16, .35); }
+.talk__types { display: flex; flex-wrap: wrap; gap: U(6); }
+.talk__types button { font: inherit; font-size: U(15); font-weight: 700; padding: U(4) U(10); cursor: pointer; color: #2a1a10; background: #fffaf0;
+  border: U(3) solid #2a1a10; border-radius: U(6); }
+.talk__types button.on { background: #ffd23f; }
+.talk__send { position: relative; margin-top: auto; align-self: flex-start; display: inline-flex; align-items: center; gap: U(12); padding: U(10) U(20) U(10) U(14);
+  font: inherit; font-size: U(22); font-weight: 700; letter-spacing: U(1); color: #fff6e6; background: #f26a2e; border: U(4) solid #2a1a10; border-radius: U(8);
+  box-shadow: 0 U(5) 0 #2a1a10; cursor: pointer; }
+.talk__send:hover { background: #ffd23f; color: #2a1a10; }
+.talk__send:active { transform: translateY(U(4)); box-shadow: 0 U(1) 0 #2a1a10; }
+.talk__send i { width: U(34); height: U(34); background: url(../assets/talk/coin.png?v=1) center / contain no-repeat; animation: tkSpin 1.4s steps(6) infinite; }
+@keyframes tkSpin { 50% { transform: scaleX(.25); } }
+.talk__coin { position: absolute; z-index: 9; width: U(40); height: U(40); background: url(../assets/talk/coin.png?v=1) center / contain no-repeat; pointer-events: none; }
+.talk__msg { min-height: U(44); font-size: U(16); line-height: 1.35; color: #2a1a10; }
+.talk__msg.err { color: #c0392b; }
+.talk__msg a { color: #b8461a; font-weight: 700; }
+
+/* note dán */
+.talk__notes { position: absolute; left: U(730); top: U(250); width: U(560); display: grid; grid-template-columns: 1fr 1fr; gap: U(38) U(34); z-index: 2; }
+.note { position: relative; aspect-ratio: 1; padding: U(34) U(20) U(16); display: flex; flex-direction: column; gap: U(6);
+  background: center / 100% 100% no-repeat; filter: drop-shadow(U(5) U(6) 0 rgba(60, 25, 5, .3)); transition: transform .12s steps(2); }
+.note--0 { background-image: url(../assets/talk/note_0.png?v=1); } .note--1 { background-image: url(../assets/talk/note_1.png?v=1); }
+.note--2 { background-image: url(../assets/talk/note_2.png?v=1); } .note--3 { background-image: url(../assets/talk/note_3.png?v=1); }
+.talk.play .note:hover { transform: rotate(0deg) scale(1.05); z-index: 3; }
+.note h4 { font-size: U(20); letter-spacing: U(2); color: #b8461a; }
+.note p { font-size: U(17); font-weight: 600; line-height: 1.25; word-break: break-word; }
+.note .chip { margin-top: auto; align-self: flex-start; font-size: U(15); font-weight: 700; padding: U(4) U(10); border-width: U(3); border-radius: U(6); }
+
+/* polaroid */
+.talk__pola { position: absolute; left: U(1330); top: U(250); width: U(250); aspect-ratio: 320 / 339; z-index: 2; --t: 4deg;
+  background: url(../assets/talk/polaroid.png?v=1) 0 0 / 100% 100% no-repeat; filter: drop-shadow(U(5) U(6) 0 rgba(60, 25, 5, .3)); }
+.talk__pola img { position: absolute; left: 7.5%; top: 8.6%; width: 85%; height: 66%; object-fit: cover; object-position: 50% 30%; }
+.talk__pola p { position: absolute; left: 0; right: 0; bottom: U(18); text-align: center; font-size: U(15); font-weight: 700; color: #3a5a9a; }
+
+.talk__close { position: absolute; right: U(70); top: U(70); z-index: 8; width: U(48); height: U(48); font: inherit; font-size: U(22); font-weight: 700;
+  color: #2a1a10; background: #ffd23f; border: U(4) solid #2a1a10; border-radius: U(8); cursor: pointer; box-shadow: U(3) U(3) 0 rgba(0, 0, 0, .35); }
+.talk__close:hover { background: #f26a2e; color: #fff6e6; }
+
+/* ---------- Màn dọc (mobile) ---------- */
+.talk--narrow .talk__dim { background: url(../assets/talk/board.webp?v=1) 50% 50% / cover no-repeat; }
+.talk--narrow .talk__board { width: 100vw; height: 100%; overflow-y: auto; background: none; filter: none; padding: U(20) U(16) U(60);
+  display: flex; flex-direction: column; align-items: center; gap: U(40); }
+.talk--narrow .talk__title, .talk--narrow .talk__form, .talk--narrow .talk__notes, .talk--narrow .talk__pola { position: relative; left: auto; top: auto; flex: none; }
+.talk--narrow .talk__title { width: 92%; margin-top: U(30); }
+.talk--narrow .talk__form { width: 100%; height: auto; min-height: U(860); }
+.talk--narrow .talk__pola { width: U(300); }
+.talk--narrow .talk__notes { width: 100%; }
+.talk--narrow .talk__close { position: fixed; right: U(10); top: U(10); }
+
+@media (prefers-reduced-motion: reduce) { .talk__send i { animation: none; } }
+.note .chip + .chip { margin-top: U(6); }
